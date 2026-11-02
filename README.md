@@ -34,7 +34,7 @@ Along the way you can submit your test predictions to the [project leaderboard](
 ```bash
 git clone https://github.com/CDIO-Gruppe-14/dl-cyp-project.git
 cd dl-cyp-project
-python -m venv .venv
+py -3.12 -m venv .venv
 source .venv/bin/activate
 (.venv\Scripts\Activate.ps1 on windows)
 python -m pip install --upgrade pip
