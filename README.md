@@ -34,8 +34,9 @@ Along the way you can submit your test predictions to the [project leaderboard](
 ```bash
 git clone https://github.com/CDIO-Gruppe-14/dl-cyp-project.git
 cd dl-cyp-project
-python3.12 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
+(.venv\Scripts\Activate.ps1 on windows)
 python -m pip install --upgrade pip
 python -m pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
 python -m pip install -r requirements.txt
