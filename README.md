@@ -34,7 +34,7 @@ Along the way you can submit your test predictions to the [project leaderboard](
 ```bash
 git clone https://github.com/CDIO-Gruppe-14/dl-cyp-project.git
 cd dl-cyp-project
-py -3.12 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 (.venv\Scripts\Activate.ps1 on windows)
 python -m pip install --upgrade pip
@@ -45,6 +45,8 @@ python -m pip install -r requirements.txt
 ## Run on DTU HPC
 
 **1. Prepare the data (once).** This writes `data/regression/` and `data/classification/` (each with `train.csv`, `val.csv`, `test.csv`) and takes a few minutes. Open a terminal and run:
+
+See the guide for running on HPC at: https://docs.google.com/document/d/1bRtX87ZD7faG1b5CayN5LKUPcn75xmrWt6jFcuwoGMU/edit?tab=t.0
 
 ```bash
 bsub < prepare_data.sh
