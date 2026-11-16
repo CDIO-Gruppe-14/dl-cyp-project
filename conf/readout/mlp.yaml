@@ -1,4 +1,6 @@
 # MLP from embedding to predictions.
+## DO NOT TOUCH
+## COPY TO NEW TEST FILE
 type: mlp
 hidden_dim: 512   # Hidden dimension of the MLP
 num_layers: 3     # Linear layers, including the output layer

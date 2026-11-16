@@ -1,2 +1,4 @@
 # One linear layer from embedding to predictions.
+## DO NOT TOUCH
+## COPY TO NEW TEST FILE
 type: linear

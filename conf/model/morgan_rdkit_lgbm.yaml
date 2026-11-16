@@ -1,6 +1,8 @@
 # @package _global_
 # Baseline: Morgan count fingerprint + RDKit 2D descriptors -> LightGBM (one model per target).
 # No readout head or epoch loop; boosting stops early on the validation split.
+## DO NOT TOUCH
+## COPY TO NEW TEST FILE
 model:
   name: morgan_rdkit_lgbm
   type: lightgbm
