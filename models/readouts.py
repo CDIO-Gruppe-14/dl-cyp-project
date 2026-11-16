@@ -17,16 +17,29 @@ class LinearReadout(nn.Module):
 class MLPReadout(nn.Module):
     """num_layers Linear layers (including the output layer) with ReLU and dropout."""
 
-    def __init__(self, in_dim, n_targets, hidden_dim=512, num_layers=3, dropout=0.1):
+    def __init__(self, in_dim, # input dimension af molecule embedding
+                 n_targets, # output dimension - altså antal targets vi skal forudsige
+                 hidden_dim=64,
+                 num_layers=2,
+                 dropout=0.6):
         super().__init__()
-        dims = [in_dim] + [hidden_dim] * (num_layers - 1)
+
+        #laver en liste med dimensioner for hver layer, hvor hidden_dim gentages num_layers-1 gange.
+        dims = [in_dim] + [hidden_dim] * (num_layers - 1) #fx input=10, hidden_dim=20, num_layers=3 => dims = [10, 20, 20]
         layers = []
-        for a, b in zip(dims[:-1], dims[1:]):
-            layers += [nn.Linear(a, b), nn.ReLU(), nn.Dropout(dropout)]
-        self.mlp = nn.Sequential(*layers, nn.Linear(dims[-1], n_targets))
+        
+        # for loop der går igennem par af dimensioner (a, b) fra dims listen, og tilføjer aktiveringsfunktioner og dropout til layers listen:
+        for (a, b) in zip(dims[:-1], dims[1:]):
+            layers += [nn.Linear(a, b),
+                       nn.ReLU(),
+                       nn.Dropout(dropout)]
+
+        #samler hidden layers og output:
+        self.mlp = nn.Sequential(*layers, #de hidden layers
+                                 nn.Linear(dims[-1], n_targets)) #output layer uden aktivering og dropout
 
     def forward(self, x):
-        return self.mlp(x)
+        return self.mlp(x) #kører input x igennem mlp'en og returnerer outputtet
 
 
 READOUTS = {'linear': LinearReadout, 'mlp': MLPReadout}

@@ -20,6 +20,8 @@ from models import MODELS
 from models.gbm import LightGBMModel
 from prepare_data import REG, CLS
 
+import matplotlib.pyplot as plt #vi importerer matplotlib.pyplot for at kunne lave plots af training loss og validerings metrics
+
 
 def masked_loss(pred, y, task, mean, std):
     mask = torch.isfinite(y)
@@ -97,37 +99,87 @@ def train_torch(cfg, train, val, targets, task, data, out):
     val_loader = model.loader(val, targets, batch_size)
     optimizer = torch.optim.AdamW(model.param_groups(), weight_decay=cfg.train.weight_decay)
     best = float('inf')
+
+    #opretter lister til at gemme training loss og validerings metrics for hver epoch
+    train_losses = []
+    val_metrics = []
+
+    #Early stopping parameters
+    patience = 20  # Number of epochs to wait for improvement before stopping
+    counter = 0  # Counter for epochs without improvement
+
+    print("batch_size: {}, epochs: {}, weight_decay: {}".format(batch_size, cfg.train.epochs, cfg.train.weight_decay))
+    print("hidden_dim: {}, num_layers: {}, dropout: {}".format(cfg.readout.hidden_dim, cfg.readout.num_layers, cfg.readout.dropout))
+
+    # Begynder træning - epoch loop
     for epoch in range(1, cfg.train.epochs + 1):
-        model.train()
-        loss_sum, observed = 0., 0
-        for batch in train_loader:
+        model.train() #sætter model i træningstilstand
+        loss_sum, observed = 0., 0 # initialiserer summen af loss og antal observerede samples
+
+        for batch in train_loader: # gennemgår hver batch i training loaderen
             y = batch['y'].to(model.device)
-            loss = masked_loss(model(batch).float(), y, task, mean, std)
-            if loss is None:
+
+            # laver forward pass og beregner loss
+            pred = model(batch).float()
+            loss = masked_loss(pred, y, task, mean, std) #vi beregner loss for batchen, men kun for de samples hvor y er finite (ikke NaN)
+
+            #error checks:
+            if loss is None: # hvis der ikke er nogen observerede samples i batchen, fortsæt til næste batch
                 continue
-            if not torch.isfinite(loss):
+            if not torch.isfinite(loss): 
                 raise RuntimeError('Nonfinite training loss')
-            optimizer.zero_grad(set_to_none=True)
-            loss.backward()
+
+            # laver nu backpropagation og opdaterer parametre:
+            optimizer.zero_grad(set_to_none=True) #nulstiller gradienter
+            loss.backward() #laver backpropagation
             nn.utils.clip_grad_norm_([p for g in optimizer.param_groups for p in g['params']],
-                                     cfg.train.grad_clip)
-            optimizer.step()
-            n = int(torch.isfinite(y).sum())
-            loss_sum += loss.item() * n
+                                     cfg.train.grad_clip) #klipper gradienter - regulazation
+            optimizer.step() #opdaterer parametre
+
+            n = int(torch.isfinite(y).sum()) # tæller antallet af observerede samples i batchen (de hvor y er finite)
+            loss_sum += loss.item() * n 
             observed += n
+        
         score = metrics(val, predict(model, val_loader, task, mean, std), targets, task)
         primary = score['macro_ST-RAE' if task == 'regression' else 'macro_MCC']
         if primary is None:
             raise ValueError('Validation metric undefined; check endpoint coverage and split')
         selection = primary if task == 'regression' else -primary
         record = {'epoch': epoch, 'train_loss': loss_sum / observed, **score}
+
+        # Gemmer training loss og validerings metrics for hver epoch
+        train_losses.append(loss_sum / observed) # dividerer loss_sum med observed for at få gennemsnitlig training loss
+        val_metrics.append(score) # gemmer validerings metrics for hver epoch
+
         with (out / 'history.jsonl').open('a') as f:
             f.write(json.dumps(record) + '\n')
         print(json.dumps(record), flush=True)
         if selection < best:
             best = selection
+            counter = 0  # reset counter if we have a new best score
             torch.save({'model': model.state_dict(), 'mean': mean, 'std': std,
                         'epoch': epoch, 'config': cfg_dict(cfg)}, out / 'best.pt')
+        else:
+            counter += 1  # increment counter if no improvement
+            if counter >= patience:
+                print(f'Early stopping at epoch {epoch}')
+                break
+    # Gemmer training loss og validerings metrics som plots
+    # Plot training loss og validation metric
+    val_scores = [m['macro_ST-RAE' if task == 'regression' else 'macro_MCC'] for m in val_metrics]
+    epochs = range(1, len(train_losses) + 1)
+
+    #plotter training loss og validation metric i graf:
+    plt.figure()
+    plt.plot(epochs, train_losses, 'r', label='Training loss')
+    plt.plot(epochs, val_scores, 'b', label='Validation ST-RAE' if task == 'regression' else 'Validation MCC')
+    plt.axvline(saved_epoch, color='gray', linestyle='--') if False else None
+    plt.legend()
+    plt.xlabel('Epoch')
+    plt.ylabel('Value')
+    plt.title('Training vs Validation')
+    plt.show()
+    
     saved = torch.load(out / 'best.pt', map_location=model.device, weights_only=True)
     model.load_state_dict(saved['model'])
     mean, std = saved['mean'], saved['std']
@@ -141,6 +193,9 @@ def cfg_dict(cfg):
 
 @hydra.main(config_path='conf', config_name='config', version_base='1.3')
 def main(cfg):
+    if cfg.device == 'cuda' and not torch.cuda.is_available():
+        cfg.device = 'mps' if torch.backends.mps.is_available() else 'cpu'
+        
     if cfg.task not in ('regression', 'classification'):
         raise ValueError(f'Unknown task {cfg.task!r}')
     out = Path(HydraConfig.get().runtime.output_dir)
@@ -178,6 +233,7 @@ def main(cfg):
                                 for name in ['train', 'val', 'test']})
     (out / 'config.json').write_text(json.dumps(config, indent=2))
     frame[['Molecule_Name', 'key', 'split']].to_csv(out / 'split.csv', index=False)
+
     # Sanity baseline fitted on training labels only.
     baseline = np.tile(train[targets].mean().to_numpy(), (len(val), 1))
     (out / 'baseline_metrics.json').write_text(json.dumps(metrics(val, baseline, targets, task), indent=2))

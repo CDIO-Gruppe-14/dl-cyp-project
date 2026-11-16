@@ -8,11 +8,11 @@ model:
   type: features
   featurizers: [rdkit]
   scaling: none           # Descriptors are already normalized to [0, 1]
-  readout_lr: 1.0e-3
+  readout_lr: 3.0e-4
   feature_workers: 4
 
 train:
   epochs: 100
   batch_size: 64
-  weight_decay: 1.0e-2
-  grad_clip: 10.0
+  weight_decay: 1.0e-3
+  grad_clip: 5
