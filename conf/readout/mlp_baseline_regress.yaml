@@ -1,0 +1,5 @@
+# MLP from embedding to predictions.
+type: mlp
+hidden_dim: 128   # Hidden dimension of the MLP
+num_layers: 2     # Linear layers, including the output layer
+dropout: 0.6  # Dropout for each layer, including the output layer
