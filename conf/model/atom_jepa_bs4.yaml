@@ -2,7 +2,7 @@
 # Pretrained Atom-JEPA encoder + readout head, fine-tuned end to end.
 ## COPY TO NEW TEST FILE
 defaults:
-  - override /readout:  mlp_baseline_class
+  - override /readout: mlp
 
 model:
   name: atom_jepa
@@ -15,6 +15,6 @@ model:
 
 train:
   epochs: 20
-  batch_size: 8
-  weight_decay: 1.0e-2
+  batch_size: 4
+  weight_decay: 1.0e-4
   grad_clip: 1.0
