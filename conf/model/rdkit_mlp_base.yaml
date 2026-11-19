@@ -1,0 +1,20 @@
+# @package _global_
+# Baseline: 200 RDKit 2D descriptors (descriptastorus, CDF-normalized) -> MLP.
+## DO NOT TOUCH
+## COPY TO NEW TEST FILE
+defaults:
+  - override /readout: mlpRegress
+
+model:
+  name: rdkit_mlp
+  type: features
+  featurizers: [rdkit]
+  scaling: none           # Descriptors are already normalized to [0, 1]
+  readout_lr: 1.0e-5
+  feature_workers: 4
+
+train:
+  epochs: 100
+  batch_size: 64
+  weight_decay: 1.0e-1
+  grad_clip: 10.0
