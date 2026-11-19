@@ -124,6 +124,8 @@ def train_torch(cfg, train, val, targets, task, data, out):
             model.encoder.freeze_encoder = False  # Unfreeze encoder efter 5 epochs
             model.encoder.set_grad_checkpointing(True)  # sætter nu grad checkpointing til igen
             model.encoder.requires_grad_(True)
+            print("\nUnfreezing encoder parameters after 10 epochs. Now training both encoder and readout head.\n")
+
 
             # Opdaterer optimizer til også at opdaterer encoderens parametre med en separat learning rate:
             optimizer = torch.optim.AdamW(model.param_groups(), weight_decay=cfg.train.weight_decay)
