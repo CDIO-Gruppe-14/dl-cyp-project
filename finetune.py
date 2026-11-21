@@ -20,9 +20,6 @@ from models import MODELS
 from models.gbm import LightGBMModel
 from prepare_data import REG, CLS
 
-import matplotlib.pyplot as plt #vi importerer matplotlib.pyplot for at kunne lave plots af training loss og validerings metrics
-
-
 def masked_loss(pred, y, task, mean, std):
     mask = torch.isfinite(y)
     if not mask.any():
@@ -119,7 +116,7 @@ def train_torch(cfg, train, val, targets, task, data, out):
     for epoch in range(1, cfg.train.epochs + 1):
 
         # Nedstående er til at initially freeze så vi åbner for encoder efter 10 epochs:
-        if cfg.model.type=='atom_jepa' and cfg.model.freeze_encoder and epoch == 10:
+        '''if cfg.model.type=='atom_jepa' and cfg.model.freeze_encoder and epoch == 10:
             #efter 6 epochs unfreezer vi encoderens parametre, så de nu kan opdateres under træning. Vi sætter også grad checkpointing til igen:
             model.encoder.freeze_encoder = False  # Unfreeze encoder efter 5 epochs
             model.encoder.set_grad_checkpointing(True)  # sætter nu grad checkpointing til igen
@@ -129,7 +126,7 @@ def train_torch(cfg, train, val, targets, task, data, out):
 
             # Opdaterer optimizer til også at opdaterer encoderens parametre med en separat learning rate:
             optimizer = torch.optim.AdamW(model.param_groups(), weight_decay=cfg.train.weight_decay)
-            optimizer.add_param_group({'params': list(model.encoder.parameters()), 'lr': cfg.model.encoder_lr}) 
+            optimizer.add_param_group({'params': list(model.encoder.parameters()), 'lr': cfg.model.encoder_lr}) '''
 
 
         model.train() #sætter model i træningstilstand
@@ -187,17 +184,6 @@ def train_torch(cfg, train, val, targets, task, data, out):
     # Plot training loss og validation metric
     val_scores = [m['macro_ST-RAE' if task == 'regression' else 'macro_MCC'] for m in val_metrics]
     epochs = range(1, len(train_losses) + 1)
-
-    #plotter training loss og validation metric i graf:
-    plt.figure()
-    plt.plot(epochs, train_losses, 'r', label='Training loss')
-    plt.plot(epochs, val_scores, 'b', label='Validation ST-RAE' if task == 'regression' else 'Validation MCC')
-    plt.axvline(saved_epoch, color='gray', linestyle='--') if False else None
-    plt.legend()
-    plt.xlabel('Epoch')
-    plt.ylabel('Value')
-    plt.title('Training vs Validation')
-    plt.show()
     
     saved = torch.load(out / 'best.pt', map_location=model.device, weights_only=True)
     model.load_state_dict(saved['model'])
