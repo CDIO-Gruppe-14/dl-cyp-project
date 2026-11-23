@@ -116,7 +116,7 @@ def train_torch(cfg, train, val, targets, task, data, out):
     for epoch in range(1, cfg.train.epochs + 1):
 
         # Nedstående er til at initially freeze så vi åbner for encoder efter 10 epochs:
-        '''if cfg.model.type=='atom_jepa' and cfg.model.freeze_encoder and epoch == 10:
+        if cfg.model.type=='atom_jepa' and cfg.model.freeze_encoder and epoch == 10:
             #efter 6 epochs unfreezer vi encoderens parametre, så de nu kan opdateres under træning. Vi sætter også grad checkpointing til igen:
             model.encoder.freeze_encoder = False  # Unfreeze encoder efter 5 epochs
             model.encoder.set_grad_checkpointing(True)  # sætter nu grad checkpointing til igen
@@ -126,7 +126,7 @@ def train_torch(cfg, train, val, targets, task, data, out):
 
             # Opdaterer optimizer til også at opdaterer encoderens parametre med en separat learning rate:
             optimizer = torch.optim.AdamW(model.param_groups(), weight_decay=cfg.train.weight_decay)
-            optimizer.add_param_group({'params': list(model.encoder.parameters()), 'lr': cfg.model.encoder_lr}) '''
+            optimizer.add_param_group({'params': list(model.encoder.parameters()), 'lr': cfg.model.encoder_lr})
 
 
         model.train() #sætter model i træningstilstand
