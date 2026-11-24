@@ -1,0 +1,22 @@
+# @package _global_
+# Pretrained ChemBERTa-2 SMILES encoder + readout head, fine-tuned end to end.
+## DO NOT TOUCH
+## COPY TO NEW TEST FILE
+defaults:
+  - override /readout: mlp
+
+model:
+  name: chemberta
+  type: chemberta
+  checkpoint: DeepChem/ChemBERTa-77M-MTR
+  pooling: mean           # mean | cls
+  freeze_encoder: false   # true trains only the readout head
+  encoder_lr: 3.0e-5
+  readout_lr: 1.0e-3
+  max_length: 256
+
+train:
+  epochs: 30
+  batch_size: 32
+  weight_decay: 1.0e-2
+  grad_clip: 1.0
