@@ -16,6 +16,6 @@ model:
 
 train:
   epochs: 30
-  batch_size: 16
-  weight_decay: 1.0e-4
+  batch_size: 4
+  weight_decay: 5.0e-4
   grad_clip: 1.0
