@@ -15,7 +15,7 @@ model:
   readout_lr: 1.0e-4
 
 train:
-  epochs: 30
+  epochs: 50
   batch_size: 4
   weight_decay: 1.0e-4
   grad_clip: 1.0
