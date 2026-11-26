@@ -1,0 +1,152 @@
+Conformers 100/6145
+Conformers 200/6145
+Conformers 300/6145
+Conformers 400/6145
+Conformers 500/6145
+Conformers 600/6145
+Conformers 700/6145
+Conformers 800/6145
+Conformers 900/6145
+Conformers 1000/6145
+Conformers 1100/6145
+Conformers 1200/6145
+Conformers 1300/6145
+Conformers 1400/6145
+Conformers 1500/6145
+Conformers 1600/6145
+Conformers 1700/6145
+Conformers 1800/6145
+Conformers 1900/6145
+Conformers 2000/6145
+Conformers 2100/6145
+Conformers 2200/6145
+Conformers 2300/6145
+Conformers 2400/6145
+Conformers 2500/6145
+Conformers 2600/6145
+Conformers 2700/6145
+Conformers 2800/6145
+Conformers 2900/6145
+Conformers 3000/6145
+Conformers 3100/6145
+Conformers 3200/6145
+Conformers 3300/6145
+Conformers 3400/6145
+Conformers 3500/6145
+Conformers 3600/6145
+Conformers 3700/6145
+Conformers 3800/6145
+Conformers 3900/6145
+Conformers 4000/6145
+Conformers 4100/6145
+Conformers 4200/6145
+Conformers 4300/6145
+Conformers 4400/6145
+Conformers 4500/6145
+Conformers 4600/6145
+Conformers 4700/6145
+Conformers 4800/6145
+Conformers 4900/6145
+Conformers 5000/6145
+Conformers 5100/6145
+Conformers 5200/6145
+Conformers 5300/6145
+Conformers 5400/6145
+Conformers 5500/6145
+Conformers 5600/6145
+Conformers 5700/6145
+Conformers 5800/6145
+Conformers 5900/6145
+Conformers 6000/6145
+Conformers 6100/6145
+{
+  "config": {
+    "data_revision": "146282d2ce1532f1803679a834a9bec9dac1e482",
+    "seed": 42,
+    "val_fraction": 0.15,
+    "test_fraction": 0.15,
+    "limit": null,
+    "rdkit": "2026.09.2",
+    "protocol": "atom-jepa-0.3.0"
+  },
+  "sha256": {
+    "cyp-challenge-TRAIN_inhibition.csv": "b8f79addd266fb6f9f4c222c5e4e73d926362328b6a8d2841871a54e46bd2278",
+    "cyp-challenge-TRAIN_TDI.csv": "b458f599a792412292664386e8f18adc5d4a4129d6bd212ae80a60fb9b96bb60"
+  },
+  "counts": {
+    "regression": {
+      "train": 3415,
+      "test": 762,
+      "val": 728
+    },
+    "classification": {
+      "train": 3382,
+      "test": 723,
+      "val": 715
+    }
+  },
+  "failed_conformers": 2
+}
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 30112619: <cyp_prepare> in cluster <dcc> Done
+
+Job <cyp_prepare> was submitted from host <hpclogin1> by user <s245513> in cluster <dcc> at Thu Nov 19 10:25:58 2026
+Job was executed on host(s) <8*n-62-13-6>, in queue <hpc>, as user <s245513> in cluster <dcc> at Thu Nov 19 10:26:00 2026
+</zhome/3d/c/216275> was used as the home directory.
+</dtu/blackhole/13/216275/dl-cyp-project> was used as the working directory.
+Started at Thu Nov 19 10:26:00 2026
+Terminated at Thu Nov 19 10:27:28 2026
+Results reported at Thu Nov 19 10:27:28 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -q hpc
+#BSUB -J cyp_prepare
+#BSUB -n 8
+#BSUB -R "span[hosts=1]"
+#BSUB -R "rusage[mem=2GB]"
+#BSUB -W 04:00
+#BSUB -o outputs/cyp_prepare_%J.out
+#BSUB -e outputs/cyp_prepare_%J.err
+set -euo pipefail
+
+# Submit from the starter directory. Set up this venv BEFORE submitting.
+cd "${LS_SUBCWD:?Submit using bsub from the starter directory}"
+source "${CYP_VENV:-$PWD/.venv}/bin/activate"
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+
+# Download labelled training tables, generate conformers, and split train/val/test.
+# Rerunning reuses existing conformer files.
+python -u prepare_data.py --out data --workers 8 --seed 42
+
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   440.85 sec.
+    Max Memory :                                 683 MB
+    Average Memory :                             502.00 MB
+    Total Requested Memory :                     16384.00 MB
+    Delta Memory :                               15701.00 MB
+    Max Swap :                                   -
+    Max Processes :                              12
+    Max Threads :                                15
+    Run time :                                   88 sec.
+    Turnaround time :                            90 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <outputs/cyp_prepare_30112619.err> for stderr output of this job.
+

@@ -1,0 +1,33 @@
+Thu Nov 26 11:17:43 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.196.07             Driver Version: 580.196.07     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-PCIE-32GB           On  |   00000000:58:00.0 Off |                    0 |
+| N/A   35C    P0             30W /  250W |       0MiB /  32768MiB |      0%   E. Process |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2.6.0+cu124 12.4
+[2026-11-26 11:17:54,534][httpx2][INFO] - HTTP Request: GET https://huggingface.co/api/agent-harnesses "HTTP/1.1 200 OK"
+[2026-11-26 11:17:54,666][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/atom-jepa/atom-jepa/resolve/main/molecules/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-11-26 11:17:54,667][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-11-26 11:17:54,685][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/atom-jepa/atom-jepa/bf14d025fc864d689dbad1ac9c55b8b7054af11e/molecules%2Fconfig.json?%2Fatom-jepa%2Fatom-jepa%2Fresolve%2Fmain%2Fmolecules%2Fconfig.json=&etag=%226cb64adb26de2e2cb428cebafd2d190e5456b443%22 "HTTP/1.1 200 OK"
+[2026-11-26 11:17:54,839][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/atom-jepa/atom-jepa/resolve/main/molecules/model.safetensors "HTTP/1.1 302 Found"
+[atom-jepa] molecules: device=cuda, precision=fp32, cuequivariance=off, compile=off
+  we recommend compile=True for larger jobs
+batch_size: 8, epochs: 1, weight_decay: 0.0001
+hidden_dim: 512, num_layers: 6, dropout: 0.1
+{"epoch": 1, "train_loss": 0.5427173907175238, "CYP2D6_is_TDI": {"MCC": 0.0, "AUROC": 0.5562208915502328, "AP": 0.3552259292740067, "n": 230, "positive_fraction": 0.27391304347826084}, "CYP3A4_is_TDI": {"MCC": 0.0, "AUROC": 0.7543224504124978, "AP": 0.37916249302565647, "n": 530, "positive_fraction": 0.2037735849056604}, "macro_MCC": 0.0}
+Best epoch: 1
+Held-out test metrics: {'CYP2D6_is_TDI': {'MCC': 0.0, 'AUROC': 0.4948431685273791, 'AP': 0.2860908584413764, 'n': 222, 'positive_fraction': 0.25675675675675674}, 'CYP3A4_is_TDI': {'MCC': 0.0, 'AUROC': 0.6883703121536384, 'AP': 0.3480430494465203, 'n': 536, 'positive_fraction': 0.22201492537313433}, 'macro_MCC': 0.0}
