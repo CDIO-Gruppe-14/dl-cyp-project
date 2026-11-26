@@ -1,3 +1,6 @@
+# @package _global_
+# Pretrained Atom-JEPA encoder + readout head, fine-tuned end to end.
+
 
 defaults:
   - override /readout: mlp_baseline_class
