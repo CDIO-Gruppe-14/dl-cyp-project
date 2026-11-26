@@ -1,0 +1,34 @@
+Thu Nov 26 18:42:27 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.196.07             Driver Version: 580.196.07     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla V100-SXM2-32GB           On  |   00000000:16:00.0 Off |                    0 |
+| N/A   37C    P0             71W /  300W |       0MiB /  32768MiB |      0%   E. Process |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2.6.0+cu124 12.4
+[2026-11-26 18:42:39,511][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/atom-jepa/atom-jepa/resolve/main/molecules/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-11-26 18:42:39,512][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-11-26 18:42:39,531][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/atom-jepa/atom-jepa/bf14d025fc864d689dbad1ac9c55b8b7054af11e/molecules%2Fconfig.json?%2Fatom-jepa%2Fatom-jepa%2Fresolve%2Fmain%2Fmolecules%2Fconfig.json=&etag=%226cb64adb26de2e2cb428cebafd2d190e5456b443%22 "HTTP/1.1 200 OK"
+[2026-11-26 18:42:39,659][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/atom-jepa/atom-jepa/resolve/main/molecules/model.safetensors "HTTP/1.1 302 Found"
+[atom-jepa] molecules: device=cuda, precision=fp32, cuequivariance=off, compile=off
+  we recommend compile=True for larger jobs
+batch_size: 8, epochs: 20, weight_decay: 0.01
+hidden_dim: 512, num_layers: 5, dropout: 0.3
+{"epoch": 1, "train_loss": 0.5506161386845437, "CYP2D6_is_TDI": {"MCC": 0.0, "AUROC": 0.5347400437220795, "AP": 0.349604943632693, "n": 230, "positive_fraction": 0.27391304347826084}, "CYP3A4_is_TDI": {"MCC": 0.0, "AUROC": 0.7039889415481833, "AP": 0.33830590958646756, "n": 530, "positive_fraction": 0.2037735849056604}, "macro_MCC": 0.0}
+{"epoch": 2, "train_loss": 0.5251965818804294, "CYP2D6_is_TDI": {"MCC": 0.0, "AUROC": 0.518296739853626, "AP": 0.29630993843719955, "n": 230, "positive_fraction": 0.27391304347826084}, "CYP3A4_is_TDI": {"MCC": 0.0, "AUROC": 0.7436370019308408, "AP": 0.36123395072051656, "n": 530, "positive_fraction": 0.2037735849056604}, "macro_MCC": 0.0}
+{"epoch": 3, "train_loss": 0.4797287913135048, "CYP2D6_is_TDI": {"MCC": 0.0, "AUROC": 0.4875962360992301, "AP": 0.2708611688664515, "n": 230, "positive_fraction": 0.27391304347826084}, "CYP3A4_is_TDI": {"MCC": 0.25889612537616286, "AUROC": 0.7509654203967001, "AP": 0.3975345835842182, "n": 530, "positive_fraction": 0.2037735849056604}, "macro_MCC": 0.12944806268808143}
+{"epoch": 4, "train_loss": 0.4580984488119154, "CYP2D6_is_TDI": {"MCC": 0.0, "AUROC": 0.5894876912840985, "AP": 0.3755259885719613, "n": 230, "positive_fraction": 0.27391304347826084}, "CYP3A4_is_TDI": {"MCC": 0.2589802760590889, "AUROC": 0.7676189222397753, "AP": 0.42254852508981383, "n": 530, "positive_fraction": 0.2037735849056604}, "macro_MCC": 0.12949013802954445}
+{"epoch": 5, "train_loss": 0.4187304005432195, "CYP2D6_is_TDI": {"MCC": 0.13945611063525623, "AUROC": 0.5695276114437792, "AP": 0.3451745140473668, "n": 230, "positive_fraction": 0.27391304347826084}, "CYP3A4_is_TDI": {"MCC": 0.31455095483009504, "AUROC": 0.779489204844655, "AP": 0.44509846989933377, "n": 530, "positive_fraction": 0.2037735849056604}, "macro_MCC": 0.22700353273267565}
