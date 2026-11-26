@@ -116,7 +116,7 @@ def train_torch(cfg, train, val, targets, task, data, out):
     for epoch in range(1, cfg.train.epochs + 1):
 
         # Nedstående er til at initially freeze så vi åbner for encoder efter 4 epochs:
-        if cfg.model.type in ['atom_jepa', 'atom_jepa_regress', 'atom_jepa_regress_InitalFreeze'] and cfg.model.freeze_encoder and epoch == 5:
+        if cfg.model.type in ['atom_jepa', 'atom_jepa_regress'] and cfg.model.freeze_encoder and epoch == 5:
             #efter 4 epochs unfreezer vi encoderens parametre, så de nu kan opdateres under træning. Vi sætter også grad checkpointing til igen:
             model.encoder.freeze_encoder = False  # Unfreeze encoder efter 4 epochs
             model.encoder.set_grad_checkpointing(True)  # sætter nu grad checkpointing til igen
