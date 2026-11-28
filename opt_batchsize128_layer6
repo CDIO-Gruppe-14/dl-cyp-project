@@ -1,0 +1,29 @@
+Sat Nov 28 16:36:00 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 620.70.06              KMD Version: 620.70.06     CUDA UMD Version: 13.5     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA A100-PCIE-40GB          On  |   00000000:86:00.0 Off |                    0 |
+| N/A   30C    P0             44W /  250W |       0MiB /  40960MiB |      0%   E. Process |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+2.6.0+cu124 12.4
+[2026-11-28 16:36:07,859][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/atom-jepa/atom-jepa/resolve/main/molecules/config.json "HTTP/1.1 307 Temporary Redirect"
+[2026-11-28 16:36:07,859][huggingface_hub.utils._http][WARNING] - Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[2026-11-28 16:36:07,877][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/atom-jepa/atom-jepa/bf14d025fc864d689dbad1ac9c55b8b7054af11e/molecules%2Fconfig.json?%2Fatom-jepa%2Fatom-jepa%2Fresolve%2Fmain%2Fmolecules%2Fconfig.json=&etag=%226cb64adb26de2e2cb428cebafd2d190e5456b443%22 "HTTP/1.1 200 OK"
+[2026-11-28 16:36:07,999][httpx2][INFO] - HTTP Request: HEAD https://huggingface.co/atom-jepa/atom-jepa/resolve/main/molecules/model.safetensors "HTTP/1.1 302 Found"
+[atom-jepa] molecules: device=cuda, precision=fp32, cuequivariance=off, compile=off
+  we recommend compile=True for larger jobs
+batch_size: 128, epochs: 30, weight_decay: 0.01
+hidden_dim: 512, num_layers: 6, dropout: 0.1
