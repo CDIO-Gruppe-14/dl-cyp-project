@@ -1,0 +1,56 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Error executing job with overrides: ['model=atom_jepa_opt_layer6', 'task=classification', 'seed=42', 'device=cuda']
+Traceback (most recent call last):
+  File "/dtu/blackhole/13/216275/dl-cyp-project/finetune.py", line 246, in main
+    predict_frame = train_torch(cfg, train, val, targets, task, data, out)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/13/216275/dl-cyp-project/finetune.py", line 134, in train_torch
+    loss.backward() #laver backpropagation
+    ^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/_tensor.py", line 626, in backward
+    torch.autograd.backward(
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/autograd/__init__.py", line 347, in backward
+    _engine_run_backward(
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/autograd/graph.py", line 823, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/utils/checkpoint.py", line 1125, in unpack_hook
+    frame.recompute_fn(*args)
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/utils/checkpoint.py", line 1519, in recompute_fn
+    fn(*args, **kwargs)
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/atom_jepa/models/eqv3_backbone.py", line 332, in _block_with_wigner
+    return self._call_block(blk, x, src_z, tgt_z, rbf, edge_index_v3, env,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/atom_jepa/models/eqv3_backbone.py", line 282, in _call_block
+    return blk(*args)
+           ^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/atom_jepa/models/equiformer_v3/transformer_block.py", line 785, in forward
+    outputs = self.ga(
+              ^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/atom_jepa/models/equiformer_v3/transformer_block.py", line 317, in forward
+    x_message = self.act(**act_input_dict)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1739, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1750, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/dtu/blackhole/16/206102/dl-cyp-project/.venv/lib/python3.12/site-packages/atom_jepa/models/equiformer_v3/activation.py", line 469, in forward
+    x_grid = x_grid_1 * x_grid_2
+             ~~~~~~~~~^~~~~~~~~~
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.21 GiB. GPU 0 has a total capacity of 31.73 GiB of which 3.39 GiB is free. Including non-PyTorch memory, this process has 28.34 GiB memory in use. Of the allocated memory 26.32 GiB is allocated by PyTorch, and 1.64 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
